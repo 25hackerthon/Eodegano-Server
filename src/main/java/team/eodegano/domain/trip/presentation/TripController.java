@@ -1,5 +1,6 @@
 package team.eodegano.domain.trip.presentation;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +10,7 @@ import team.eodegano.domain.trip.presentation.dto.response.TripResponse;
 import team.eodegano.domain.trip.service.*;
 
 @RestController
-@RequestMapping("/trip")
+@RequestMapping("/trips")
 @RequiredArgsConstructor
 public class TripController {
 
@@ -20,35 +21,31 @@ public class TripController {
     private final GetFinalTripService getFinalTripService;
 
     @PostMapping
-    public ResponseEntity<TripResponse> createTrip(@RequestBody TripRequest request) {
-        TripResponse response = createTripService.execute(request);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<TripResponse> createTrip(@Valid @RequestBody TripRequest request) {
+        return ResponseEntity.ok(createTripService.execute(request));
     }
 
-    @GetMapping("/{trip_id}")
-    public ResponseEntity<TripResponse> getTrip(@PathVariable("trip_id") Long tripId) {
-        TripResponse response = getTripService.execute(tripId);
-        return ResponseEntity.ok(response);
+    @GetMapping("/{tripId}")
+    public ResponseEntity<TripResponse> getTrip(@PathVariable Long tripId) {
+        return ResponseEntity.ok(getTripService.execute(tripId));
     }
 
-    @GetMapping("/{trip_id}/final")
-    public ResponseEntity<FinalTripResponse> getFinalTrip(@PathVariable("trip_id") Long tripId) {
-        FinalTripResponse response = getFinalTripService.execute(tripId);
-        return ResponseEntity.ok(response);
+    @GetMapping("/{tripId}/final")
+    public ResponseEntity<FinalTripResponse> getFinalTrip(@PathVariable Long tripId) {
+        return ResponseEntity.ok(getFinalTripService.execute(tripId));
     }
 
-    @PatchMapping("/{trip_id}")
+    @PatchMapping("/{tripId}")
     public ResponseEntity<TripResponse> patchTrip(
-            @PathVariable Long trip_id,
+            @PathVariable Long tripId,
             @RequestBody TripRequest request
     ) {
-        TripResponse response = updateTripService.execute(trip_id, request);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(updateTripService.execute(tripId, request));
     }
 
-    @DeleteMapping("/{trip_id}")
-    public ResponseEntity<Void> deleteTrip(@PathVariable Long trip_id) {
-        deleteTripService.execute(trip_id);
+    @DeleteMapping("/{tripId}")
+    public ResponseEntity<Void> deleteTrip(@PathVariable Long tripId) {
+        deleteTripService.execute(tripId);
         return ResponseEntity.noContent().build();
     }
 }
