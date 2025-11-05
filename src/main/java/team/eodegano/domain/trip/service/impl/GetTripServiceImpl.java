@@ -7,6 +7,7 @@ import team.eodegano.domain.trip.entity.Trip;
 import team.eodegano.domain.trip.presentation.dto.response.TripResponse;
 import team.eodegano.domain.trip.repository.TripRepository;
 import team.eodegano.domain.trip.service.GetTripService;
+import team.eodegano.global.exception.TripNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +19,7 @@ public class GetTripServiceImpl implements GetTripService {
     @Transactional(readOnly = true)
     public TripResponse execute(Long tripId) {
         Trip trip = tripRepository.findById(tripId)
-                .orElseThrow(() -> new IllegalArgumentException("Trip not found"));
+                .orElseThrow(() -> new TripNotFoundException(tripId));
 
         return new TripResponse(
                 trip.getId(),

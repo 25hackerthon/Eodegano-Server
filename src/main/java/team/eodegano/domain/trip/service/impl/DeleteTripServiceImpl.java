@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import team.eodegano.domain.trip.entity.Trip;
 import team.eodegano.domain.trip.repository.TripRepository;
 import team.eodegano.domain.trip.service.DeleteTripService;
+import team.eodegano.global.exception.TripNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +18,7 @@ public class DeleteTripServiceImpl implements DeleteTripService {
     @Transactional
     public void execute(Long tripId) {
         Trip trip = tripRepository.findById(tripId)
-                .orElseThrow(() -> new IllegalArgumentException("Trip not found"));
+                .orElseThrow(() -> new TripNotFoundException(tripId));
         tripRepository.delete(trip);
     }
 }

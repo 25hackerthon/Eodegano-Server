@@ -8,6 +8,7 @@ import team.eodegano.domain.trip.presentation.dto.request.TripRequest;
 import team.eodegano.domain.trip.presentation.dto.response.TripResponse;
 import team.eodegano.domain.trip.repository.TripRepository;
 import team.eodegano.domain.trip.service.UpdateTripService;
+import team.eodegano.global.exception.TripNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +20,7 @@ public class UpdateTripServiceImpl implements UpdateTripService {
     @Transactional
     public TripResponse execute(Long tripId, TripRequest req) {
         Trip trip = tripRepository.findById(tripId)
-                .orElseThrow(() -> new IllegalArgumentException("Trip not found"));
+                .orElseThrow(() -> new TripNotFoundException(tripId));
 
         trip.update(
                 req.region(),
