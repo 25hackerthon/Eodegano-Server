@@ -1,6 +1,6 @@
 package team.eodegano.domain.trip.presentation.dto.request;
 
-import org.antlr.v4.runtime.misc.NotNull;
+import jakarta.validation.constraints.NotNull;
 import team.eodegano.domain.trip.entity.constant.Category;
 import team.eodegano.domain.trip.entity.constant.Region;
 import team.eodegano.domain.trip.entity.constant.Ride;
