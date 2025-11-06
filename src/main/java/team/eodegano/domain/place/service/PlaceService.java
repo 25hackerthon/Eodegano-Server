@@ -2,6 +2,7 @@ package team.eodegano.domain.place.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import team.eodegano.domain.place.dto.PlaceRequest;
 import team.eodegano.domain.place.dto.PlaceResponse;
 import team.eodegano.domain.place.entity.Place;
@@ -16,7 +17,18 @@ public class PlaceService {
 
     private final PlaceRepository placeRepository;
 
+    @Transactional
     public PlaceResponse addPlace(Long tripId, PlaceRequest request) {
+        Integer orderIndex = request.getOrder();
+
+        if (orderIndex != null) {
+            placeRepository.incrementOrderIndexFrom(tripId, orderIndex);
+        } else {
+            orderIndex = placeRepository.findTopByTripIdOrderByOrderIndexDesc(tripId)
+                    .map(p -> p.getOrderIndex() + 1)
+                    .orElse(0);
+        }
+
         Place place = new Place();
         place.setTripId(tripId);
         place.setName(request.getName());
@@ -25,7 +37,7 @@ public class PlaceService {
         place.setLatitude(request.getLatitude());
         place.setLongitude(request.getLongitude());
         place.setDescription(request.getDescription());
-        place.setOrderIndex(request.getOrder() != null ? request.getOrder() : 0);
+        place.setOrderIndex(orderIndex);
 
         Place saved = placeRepository.save(place);
         return toResponse(saved);

@@ -4,11 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import team.eodegano.domain.trip.presentation.dto.request.TripRequest;
+import team.eodegano.domain.trip.presentation.dto.response.FinalTripResponse;
 import team.eodegano.domain.trip.presentation.dto.response.TripResponse;
-import team.eodegano.domain.trip.service.CreateTripService;
-import team.eodegano.domain.trip.service.DeleteTripService;
-import team.eodegano.domain.trip.service.GetTripService;
-import team.eodegano.domain.trip.service.UpdateTripService;
+import team.eodegano.domain.trip.service.*;
 
 @RestController
 @RequestMapping("/trip")
@@ -19,6 +17,7 @@ public class TripController {
     private final GetTripService getTripService;
     private final UpdateTripService updateTripService;
     private final DeleteTripService deleteTripService;
+    private final GetFinalTripService getFinalTripService;
 
     @PostMapping
     public ResponseEntity<TripResponse> createTrip(@RequestBody TripRequest request) {
@@ -32,18 +31,24 @@ public class TripController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/{trip_id}/final")
+    public ResponseEntity<FinalTripResponse> getFinalTrip(@PathVariable("trip_id") Long tripId) {
+        FinalTripResponse response = getFinalTripService.execute(tripId);
+        return ResponseEntity.ok(response);
+    }
+
     @PatchMapping("/{trip_id}")
     public ResponseEntity<TripResponse> patchTrip(
-            @PathVariable Long tripId,
+            @PathVariable Long trip_id,
             @RequestBody TripRequest request
     ) {
-        TripResponse response = updateTripService.execute(tripId, request);
+        TripResponse response = updateTripService.execute(trip_id, request);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{trip_id}")
-    public ResponseEntity<Void> deleteTrip(@PathVariable Long tripId) {
-        deleteTripService.execute(tripId);
+    public ResponseEntity<Void> deleteTrip(@PathVariable Long trip_id) {
+        deleteTripService.execute(trip_id);
         return ResponseEntity.noContent().build();
     }
 }
