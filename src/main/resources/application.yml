@@ -13,3 +13,7 @@ spring:
       ddl-auto: update
     show-sql: false
     open-in-view: false
+
+openai:
+  api:
+    key: ${OPENAI_API_KEY}

@@ -1,4 +1,4 @@
-package team.eodegano.place.dto;
+package team.eodegano.domain.place.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PlaceRequest {
+public class PlaceResponse {
+    private Long placeId;
+    private Long tripId;
     private String name;
     private String category;
     private String address;
