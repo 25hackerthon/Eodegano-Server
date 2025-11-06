@@ -1,7 +1,7 @@
-package team.eodegano.place.repository;
+package team.eodegano.domain.place.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import team.eodegano.place.entity.Place;
+import team.eodegano.domain.place.entity.Place;
 
 import java.util.List;
 

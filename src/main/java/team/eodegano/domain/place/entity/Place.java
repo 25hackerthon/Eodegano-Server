@@ -1,4 +1,4 @@
-package  team.eodegano.place.entity;
+package team.eodegano.domain.place.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

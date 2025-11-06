@@ -1,11 +1,11 @@
-package team.eodegano.place.controller;
+package team.eodegano.domain.place.presentation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import team.eodegano.place.dto.PlaceRequest;
-import team.eodegano.place.dto.PlaceResponse;
-import team.eodegano.place.service.PlaceService;
+import team.eodegano.domain.place.dto.PlaceRequest;
+import team.eodegano.domain.place.dto.PlaceResponse;
+import team.eodegano.domain.place.service.PlaceService;
 
 import java.util.List;
 import java.util.Map;
@@ -32,15 +32,6 @@ public class PlaceController {
         return ResponseEntity.ok(placeService.getPlaces(tripId));
     }
 
-    @PatchMapping("/{tripId}/{placeId}")
-    public ResponseEntity<PlaceResponse> updatePlace(
-            @PathVariable Long tripId,
-            @PathVariable Long placeId,
-            @RequestBody PlaceRequest request
-    ) {
-        return ResponseEntity.ok(placeService.updatePlace(tripId, placeId, request));
-    }
-
     @DeleteMapping("/{tripId}/{placeId}")
     public ResponseEntity<Map<String, Object>> deletePlace(
             @PathVariable Long tripId,
@@ -48,13 +39,5 @@ public class PlaceController {
     ) {
         placeService.deletePlace(tripId, placeId);
         return ResponseEntity.ok(Map.of("message", "장소 삭제 성공"));
-    }
-
-    @DeleteMapping("/{tripId}/all")
-    public ResponseEntity<Map<String, Object>> deleteAllPlaces(
-            @PathVariable Long tripId
-    ) {
-        placeService.deleteAllPlaces(tripId);
-        return ResponseEntity.ok(Map.of("message", "모든 장소 삭제 성공"));
     }
 }
